@@ -7,7 +7,7 @@ class Questioninline(admin.StackedInline):
     model = Question
 
 class Choiceinline(admin.StackedInline):
-    model = Question
+    model = Choice
 
 class LessonInline(admin.StackedInline):
     model = Lesson
@@ -35,5 +35,5 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
 admin.site.register(Learner)
-admin.site.register(Question)
+admin.site.register(Question, QuestionAdmin)
 admin.site.register(Choice)
