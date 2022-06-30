@@ -75,6 +75,9 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     content = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 # Enrollment model
 # <HINT> Once a user enrolled a class, an enrollment entry should be created between the user and course
@@ -105,7 +108,7 @@ class Question(models.Model):
     # Foreign key to course
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # Foreign key to lesson
-    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     # question text
     question_text = models.TextField()
     # question grade/mark
