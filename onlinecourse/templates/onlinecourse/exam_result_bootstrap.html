@@ -55,17 +55,23 @@
                 <div class="card mt-1">
                     <div class="card-header"><h5>{{ question.question_text }}</h5></div>
                         {% csrf_token %}
-                        <div class="form-group">
-                            {% for choice in question.choice_set.all %}
-                            <div class="form-check">
-                                {% if question.is_get_score %}
-                                {{ choice.choice_text }}
-                                {%endif}
-                            </div>
-                            {% endfor %}
-                        </div>
+                        {% for choice in question.choice_set.all %}
+                            {% if choice.is_correct %}
+                            <p style="color:green">Correct Answer: {{choice.choice_text}}</p>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% for choices in selected_ids.choices.all %}
+                            {% if choices.question == question%}
+                                {{choices.choice_text}}
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                        
+
                     </div>
-                {% endfor %}
+
+            {% endfor %}
         </div>
     </div>
 </body>
