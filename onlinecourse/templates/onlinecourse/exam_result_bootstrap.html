@@ -51,6 +51,21 @@
         <div class="card-columns-vertical mt-1">
         <h5 class="">Exam results</h5>
             <!--HINT Display exam results-->
+            {% for question in course.question_set.all %}
+                <div class="card mt-1">
+                    <div class="card-header"><h5>{{ question.question_text }}</h5></div>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {% for choice in question.choice_set.all %}
+                            <div class="form-check">
+                                {% if question.is_get_score %}
+                                {{ choice.choice_text }}
+                                {%endif}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
         </div>
     </div>
 </body>

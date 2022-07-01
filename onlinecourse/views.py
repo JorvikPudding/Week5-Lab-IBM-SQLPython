@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 # <HINT> Import any new Models here
 from django.http import HttpResponseRedirect
 # <HINT> Import any new Models here
-from .models import Course, Enrollment, Question, choice, Submission
+from .models import Course, Enrollment, Question, Choice, Submission
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -126,13 +126,13 @@ def submit(request, course_id):
     user = request.user
 
     enrollment = Enrollment.objects.get(user=user, course=course)
-    Submission.objects.create(enrollment=enrollment)
+    submission = Submission.objects.create(enrollment=enrollment)
 
     answers = extract_answers(request)
     submission.choices.add(*answers)
     submission.save()
 
-    return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(submission.id,)))
+    return HttpResponseRedirect(reverse('onlinecourse:show_exam_result', args=(course.id, submission.id,)))
 
 # <HINT> A example method to collect the selected choices from the exam form from the request object
 def extract_answers(request):
@@ -164,13 +164,13 @@ def show_exam_result(request, course_id, submission_id):
             total_score = total_score + question.grade
     
     max_score = 0 #Calculate max_score
-    for question in all_questions:
+    for question in all_question:
         max_score = max_score + question.grade
 
     overall_score = (total_score/max_score)*100
 
     context = {"course": course, "selected_ids": submission, 'grade': overall_score}
-    return render(request, 'onlinecourse/course_list.html', context)
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
 
 
 
